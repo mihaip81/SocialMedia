@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Post;
 
+use App\Models\DeletedPost;
+
 class HomeController extends Controller
 {
     public function index()
@@ -26,8 +28,6 @@ class HomeController extends Controller
 
         $data->description=$request->description;
 
-        // image insert part
-
         $image=$request->image;
 
         if($image)
@@ -38,7 +38,6 @@ class HomeController extends Controller
 
         $request->image->move('post',$imagename);
 
-        // image part end here
 
         $data->image=$imagename;
 
@@ -63,6 +62,12 @@ class HomeController extends Controller
     {
 
         $data=post::find($id);
+
+        DeletedPost::create([
+            'username' => $data->username,
+            'description' => $data->description,
+            'image' => $data->image,
+        ]);
 
         $data->delete();
 
@@ -91,8 +96,6 @@ class HomeController extends Controller
         $imagename=time().'.'.$image->getClientOriginalExtension();
 
         $request->image->move('post',$imagename);
-
-        // image part end here
 
         $post->image=$imagename;
 

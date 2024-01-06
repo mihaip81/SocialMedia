@@ -51,6 +51,7 @@
         <label>{{$post->username}}</label>
         <p>{{$post->description}}</p>
         <img src="post/{{$post->image}}" alt="error image" heigth="100px" width="100%">
+        <hr>
     </div>
 
     @endforeach
